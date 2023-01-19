@@ -1,0 +1,1177 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="初识Kubernetes, Cloud Nactive  MachineLearning 卫占军 机器学习">
+    <meta name="description" content="初识KubernetesKubernetes 也称为 K8s，谷歌开源的容器编排系统。kubernets的介绍就是这么简单，全部重点在加粗字体上，“谷歌”意味着它的江湖地位，一句话就是出道即巅峰；“容器”表示它的根基，它是以容器为基构建的庞">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>初识Kubernetes | 个人博客</title>
+    <link rel="icon" type="image/png" href="https://resource.weizhanjun.com/public/medias/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="../../../../../../libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="../../../../../../libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="../../../../../../libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="../../../../../../libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="../../../../../../libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="../../../../../../css/matery.css">
+<link rel="stylesheet" type="text/css" href="../../../../../../css/my.css">
+<link rel="stylesheet" type="text/css" href="../../../../../../css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="../../../../../../libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="../../../../../../css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="../../../../../../libs/jquery/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="../../../../../../index.html" class="waves-effect waves-light">
+                    
+                    <img src="https://resource.weizhanjun.com/public/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">个人博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="../../../../../../index.html" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="../../../../../../tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="../../../../../../categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="../../../../../../archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="../../../../../../about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="https://resource.weizhanjun.com/public/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">个人博客</div>
+        <div class="logo-desc">
+            
+            云架构 | MLOps | 机器学习
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="../../../../../../index.html" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="../../../../../../tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="../../../../../../categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="../../../../../../archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="../../../../../../about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+<script src="../../../../../../libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('dream')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '../../../../../../index.html';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://resource.weizhanjun.com/public/medias/featureimages/13.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">初识Kubernetes</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="../../../../../../tags/kubernetes/">
+                                <span class="chip bg-color">kubernetes</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="../../../../../../categories/posts/" class="post-category">
+                                _posts
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-01-20
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2023-01-20
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    12 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="初识Kubernetes"><a href="#初识Kubernetes" class="headerlink" title="初识Kubernetes"></a>初识Kubernetes</h1><p>Kubernetes 也称为 K8s，谷歌开源的容器编排系统。<br>kubernets的介绍就是这么简单，全部重点在加粗字体上，“谷歌”意味着它的江湖地位，一句话就是出道即巅峰；<br>“容器”表示它的根基，它是以容器为基构建的庞大系统，所以有必要介绍下容器技术。</p>
+<h2 id="1-1-容器发展"><a href="#1-1-容器发展" class="headerlink" title="1.1 容器发展"></a>1.1 容器发展</h2><p>容器技术算是一个新生事物，几乎完全重塑了整个云计算市场的形态。它不仅催生出了一批年轻有为的容器技术人，更培育出了一个具有相当规模的开源基础设施技术市场，从 AI、云计算、微服务、基础设施等维度多管齐下，各公司争相把容器和 Kubernetes 项目树立为战略重心之一。</p>
+<p><strong>就在这场因“容器”而起的技术变革中，Kubernetes 项目已然成为容器技术的事实标准，重新定义了基础设施领域对应用编排与管理的种种可能。</strong></p>
+<p>之所以要先说容器，是因为从过去以物理机和虚拟机为主体的开发运维环境，向以容器为核心的基础设施转变，也就是所谓的容器化，并不是一个温和的变革，中间涵盖了对网络、存储、调度、操作系统、分布式原理等多方面的容器化理解和改造，很有必要了解下容器和容器化到底是什么。</p>
+<p>关于容器，详细介绍有很多内容，我们从几个简单问题开始，了解下容器的基本原理。</p>
+<ul>
+<li>为什么容器里只能跑“一个进程”？</li>
+<li>一直在用的某个 JVM 参数，在容器里就不好使了？</li>
+<li>容器网络连不通如何去 Debug？</li>
+<li>Kubernetes 中 StatefulSet 和 Operator 有什么区别？PV 和 PVC 这些概念又该怎么用？</li>
+</ul>
+<p>上面的问题，涉及到Linux进程和容器的关系，Kubernetes的重要设计模式“控制器”，存储挂载，网络通信等等，这些往往在kubernets文档中不做介绍，但经验告诉我，这些才是最重要，也是最应该了解的。据我四年的kubernets工作经验看来，不同公司的Kubernetes集群最大的区别不在于版本和部署方式，而在于网络和存储的集成，能深刻理解这些，才能真正掌握云原生技术。</p>
+<p>‍</p>
+<h3 id="1-1-1-裸机时代"><a href="#1-1-1-裸机时代" class="headerlink" title="1.1.1 裸机时代"></a>1.1.1 裸机时代</h3><p>裸机时代，用户收到管理一切，硬件维护 -&gt; 系统维护 -&gt; 中间件维护 -&gt; 应用维护 -&gt; 数据维护。</p>
+<p>当时为了打包中间件应用，方便重复部署和服务迁移，大厂里会打包很多RPM包；为了服务器迁移，甚至还会制作自定义系统镜像; 服务的部署，使用大量的shell脚本和python脚本，自动更新应用。</p>
+<p>​<img src="https://resource.weizhanjun.com/public/images/20230120002948.png" alt="">​</p>
+<p>面临的痛点就是本地开发环境和线上环境不一致，导致运行结果出错。</p>
+<p>‍</p>
+<h3 id="1-1-2-PaaS兴起"><a href="#1-1-2-PaaS兴起" class="headerlink" title="1.1.2 PaaS兴起"></a>1.1.2 PaaS兴起</h3><p>云计算的历史其实不长，我当然也不是讲历史的，只是有一些产品值得被记住，比如OpenStack。AWS Formation.</p>
+<p>我在2016年的时候，在一家P2P公司工作，当时公司使用的就是OpenStack，当时的我也是刚毕业的小白，对于这种高大上的技术充满向往，于是查了很多资源学习。OpenStack，开源，云计算平台，NASA背书，后来多家大厂参与开发。</p>
+<p>OpenStack能做到：</p>
+<ol>
+<li>计算资源的管理，数据中心的级别，管理大量虚拟机，开发者通过API创建管理资源，管理者通过web访问资源，API调用，是实现Pass的基础。</li>
+<li>存储资源的管理，为虚拟机灵活分配块存储和对象存储，重点是可配置存储的功能。</li>
+<li>网络资源，创建海量虚拟网络，插件式，API驱动型的网络管理。</li>
+</ol>
+<p>​<img src="https://resource.weizhanjun.com/public/images/20230105234852.png" alt="">​</p>
+<p>同时期还有一个项目CLoud Foundry，同样是云计算领域的热门项目，完全开源，它最大的特点是最底层使用的是容器。</p>
+<blockquote>
+<p>PaaS时代到来了，那什么是PaaS，平台即服务，对于使用体验是这样的：任何人通过定义一些参数，在几分钟内就可以简单部署网络应用或服务，并让它们向世界开放，当一个应用变得流行起来时，云就可以轻松地扩展它来处理更多的流量。用几个按键代替几个月的构建和迁移，云平台代表了IT演进的下一步，让你专注于自己的应用和数据，而不担心底层的基础设施。</p>
+</blockquote>
+<p>举个例子，创建好虚拟机，在这些虚拟机上部署Cloud Foundry，开发者只要执行一条命令，就可以把服务部署到云上，命令是cf push <my_application>，最核心模块是应用的打包和分发机制。</p>
+<ol>
+<li>打包： cp push的作用就是把应用的可执行文件和启动脚本打进一个压缩包内，上传到云上Cloud Foundry 的存储中。</li>
+<li>分发：Cloud Foundry 会通过调度器选择一个虚拟机，然后通知这个机器上的 Agent， 把应用压缩包download启动。</li>
+</ol>
+<p>同时，为了让一台虚拟机启动多个用户的应用，Cloud Foundry 调用操作系统的 Cgroups 和 Namespace 机制为每一个应用单独创建一个称作“沙盒”的隔离环境。</p>
+<p>Docker出现了，Docker复制了Cloud Foundry的“沙盒”，复制了打包和分发，甚至更极端，除了打包执行文件和启动脚本，甚至打包了整个系统文件目录。就是这个小改动，解决了本地环境和云环境不一致的难题，更是成就了docker在容器领域独一无二的地位。</p>
+<p>Docker的特点：</p>
+<ol>
+<li><p>PaaS系统的核心打包系统，变得更简单。Docker镜像里的系统文件和目录，可以轻松在互联网上获得，用户只需要定制打包过程，执行一条命令即可打包镜像：</p>
+<blockquote>
+<p>docker build -t <my_image> -f Dockerfile .</p>
+</blockquote>
+</li>
+<li><p>PaaS系统分发解压过程也可以轻松实现, docker run <my_image> 即可从远端拉取镜像并解压执行。</p>
+</li>
+</ol>
+<p>Docker 项目给 PaaS 世界带来的“降维打击”，其实是提供了一种非常便利的打包机制。这种机制直接打包了应用运行所需要的整个操作系统，从而保证了本地环境和云端环境的高度一致，避免了用户通过“试错”来匹配两种不同运行环境之间差异的痛苦过程。</p>
+<p>‍</p>
+<h3 id="1-1-3-CaaS兴起"><a href="#1-1-3-CaaS兴起" class="headerlink" title="1.1.3 CaaS兴起"></a>1.1.3 CaaS兴起</h3><p>比较遗憾的是，Docker并没有第一时间推出容器集群管理，所以它并不能代替PaaS完成大规模应用的部署工作，而Cloud Foundry 项目由于商业上的考虑，也并没有第一时间使用 Docker 作为自己的核心依赖，去替换自己那套饱受诟病的打包流程。</p>
+<p>反倒是一些机敏的创业公司，纷纷在第一时间推出了 Docker 容器集群管理的开源项目（比如Deis 和 Flynn），它们自称Caas，即Container as a Service。</p>
+<p>2014年，Docker推出了“Docker原生”容器集群管理项目Swarm，将Caas推向新的高度，重新定义了新的PaaS。“PaaS”的定义已经全然不是 Cloud Foundry 描述的那个样子，而是变成了一套以 Docker 容器为技术核心，以 Docker 镜像为打包标准的、全新的“容器化”思路。</p>
+<p>在过去的很长一段时间里，相较于前端和互联网技术社区，服务器端技术社区一直是一个相对沉闷而小众的圈子。在这里，从事 Linux 内核开发的极客们自带“不合群”的“光环”，后端开发者们啃着多年不变的 TCP/IP 发着牢骚，运维更是天生注定的幕后英雄。</p>
+<p>而 Docker 项目，却给后端开发者提供了走向聚光灯的机会。就比如 Cgroups 和 Namespace 这种已经存在多年却很少被人们关心的特性，在 2014 年和 2015 年竟然频繁入选各大技术会议的分享议题，就因为听众们想要知道 Docker 这个东西到底是怎么一回事儿。</p>
+<p>而 Docker 项目之所以能取得如此高的关注，一方面它解决了应用打包和发布这一困扰运维人员多年的技术难题；而另一方面，就是因为它第一次把一个纯后端的技术概念，通过非常友好的设计和封装，交到了最广大的开发者群体手里。</p>
+<p>在这种独特的氛围烘托下，你不需要精通 TCP/IP，也无需深谙 Linux 内核原理，哪怕只是一个前端或者网站的 PHP 工程师，都会对如何把自己的代码打包成一个随处可以运行的 Docker 镜像充满好奇和兴趣。</p>
+<p>解决了应用打包这个根本性的问题，同开发者与生俱来的的亲密关系，再加上 PaaS 概念已经深入人心的完美契机，成为 Docker 这个技术上看似平淡无奇的项目一举走红的重要原因。</p>
+<p>就在这时，docker推出了swarm，悄悄走上了商业化的道路。</p>
+<h3 id="1-1-4-容器编排"><a href="#1-1-4-容器编排" class="headerlink" title="1.1.4 容器编排"></a>1.1.4 容器编排</h3><p>有了容器，只是方便了应用的打包和使用，它始终只是一个启停容器的小工具，不具备平台的能力，所以容器编排出现了，在这个领域涌现出很多项目，可谓是群雄并起。</p>
+<table>
+<thead>
+<tr>
+<th>公司</th>
+<th>容器运行时</th>
+<th>容器编排<br /></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CoreOS</td>
+<td>rkt</td>
+<td>Fleet调度组合</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>docker</td>
+<td>Swarm</td>
+</tr>
+<tr>
+<td>Mesos<br /></td>
+<td>-</td>
+<td>Mesos</td>
+</tr>
+<tr>
+<td>RedHat</td>
+<td>-</td>
+<td>OpenShift</td>
+</tr>
+<tr>
+<td>Google</td>
+<td>-</td>
+<td>Kubernetes</td>
+</tr>
+</tbody></table>
+<p>简单聊下这几个产品：</p>
+<ol>
+<li>CoreOS使用多个组件完成容器编排，无论从使用上还是生态上，都比不上docker，rkt容器也是打不开局面，完全被Docker压制.</li>
+<li>Docker收购了Fig做容器编排，也就是后来的Compose。收购了SocketPlane做容器网络，收购了Tutum做Docker图形化管理，Flocker（后来被EMC收购）为Docker处理容器存储，Swarm容器编排原生支持Docker API，当时也是异常繁荣。</li>
+<li>Mesos出身大数据领域，大规模集群管理很成熟，用户可以像使用一台机器那样轻松管理万台规模的机器，这是Docker创业公司所不具备的，受大型企业的追捧。</li>
+<li>RedHat早期和Docker合作，也是重要的代码贡献者，最后因Docker平台化战略而退出，只剩下Cloud Foundry时代的产品OpenShift，很难和Swarm，Mesos竞争。</li>
+</ol>
+<p>Google起初发布了自己内部使用多年，经历过生产环境验证的 Linux 容器：lmctfy（Let Me Container That For You），当时面对强势崛起的Docker，google关闭了lmctfy，寻求Docker合作，共同推出了中立的容器运行时（container runtime）库作为Docker项目的核心依赖。当时docker在不久之后又自己发布了容器运行时库Libcontainer，由于太仓促，项目可读性差，bug众多，为社区诟病多年。</p>
+<p>随着云的热度逐步提高（也有一部分原因是docker在容器运行时强硬态度，拒绝与别人合作），Docker牵头，CoreOS、Google、RedHat等共同宣布成立中立基金会，Docker公司将Libcontainer捐出，改名为RunC，并以RunC为依据，大家共同制定一套容器和镜像的标准和规范，这即是OCI(Open Container Initiative)。</p>
+<p>因为OCI的提出，其实在一定程度上减少了各容器玩家对docker的依赖，Google开始在容器编排上发力，面对Memos的集群管理优势，Google拿出内部的集群管理系统（Borg）对抗，这就是Kubernetes。<br>Kubernetes的优势在于拥有Memos的集群能力，也有Docker的便捷性，同时它的开放特点，吸引无数开发者加入，对抗docker的商业帝国。<br>至于生态，Kubernetes同样不缺，CNCF是以Kubernetes为核心的，诞生了很多优秀项目，例如CNI，Fluentd等，都是容器生态的知名工具。<br>Kubernetes最大的优势是整个社区推进“民主化”架构，即：从 API 到容器运行时的每一层，Kubernetes 项目都为开发者暴露出了可以扩展的插件机制，鼓励用户通过代码的方式介入 Kubernetes 项目的每一个阶段。<br>这个最直观的感受就是，基于Kubernetes诞生了很多二次开发的产品，比如微服务网格Istio，比如各种Operator，比如存储服务Ceph CSI等等。<br>更重要的是，不同于之前局限于“打包、发布”这样的 PaaS 化路线，这一次容器社区的繁荣，是一次完全以Kubernetes 项目为核心的“百家争鸣”。</p>
+<h3 id="1-1-5-小结"><a href="#1-1-5-小结" class="headerlink" title="1.1.5 小结"></a>1.1.5 小结</h3><p>容器技术圈子在短短几年里发生了很多变数，但很多事情其实也都在情理之中。就像 Docker 这样一家创业公司，在通过开源社区的运作取得了巨大的成功之后，就不得不面对来自整个云计算产业的竞争和围剿。而这个产业的垄断特性，对于 Docker 这样的技术型创业公司其实天生就不友好。在这种局势下，接受微软的天价收购，在大多数人看来都是一个非常明智和实际的选择。但是Docker拒绝了，就不得不去对抗来自整个云计算产业的压力。只不过，Docker 公司最后选择的对抗方式，是将开源项目与商业产品紧密绑定，打造了一个极端封闭的技术生态。而这，其实违背了 Docker 项目与开发者保持亲密关系的初衷。相比之下，Kubernetes 社区，正是以一种更加温和的方式，承接了 Docker 项目的未尽事业，即：以开发者为核心，构建一个相对民主和开放的容器生态。这也是为何Kubernetes 项目的成功其实是必然的。</p>
+<p>‍</p>
+<h2 id="1-2-容器基础"><a href="#1-2-容器基础" class="headerlink" title="1.2 容器基础"></a>1.2 容器基础</h2><p>容器其实是一种沙盒技术。顾名思义，沙盒就是能够像一个集装箱一样，把你的应用“装”起来的技术。这样，应用与应用之间，就因为有了边界而不至于相互干扰；而被装进集装箱的应用，也可以被方便地搬来搬去。</p>
+<p>‍</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="../../../../../../about" rel="external nofollow noreferrer">卫占军</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://blog.weizhanjun.com">https://blog.weizhanjun.com</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="../../../../../../about" target="_blank">卫占军</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="../../../../../../tags/kubernetes/">
+                                    <span class="chip bg-color">kubernetes</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="../../../../../../libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="../../../../../../libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="../greedy-algorithm-7lkrt.html/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://resource.weizhanjun.com/public/medias/featureimages/6.jpg" class="responsive-img" alt="贪心算法">
+                        
+                        <span class="card-title">贪心算法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-01-20
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            卫占军
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="../../../../../../tags/LeetCode/">
+                        <span class="chip bg-color">LeetCode</span>
+                    </a>
+                    
+                    <a href="../../../../../../tags/贪心算法/">
+                        <span class="chip bg-color">贪心算法</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="../../../../05/post/backtrack-oosh7.html/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="https://resource.weizhanjun.com/public/medias/featureimages/26.jpg" class="responsive-img" alt="回溯算法(backtrack)">
+                        
+                        <span class="card-title">回溯算法(backtrack)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-01-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="../../../../../../categories/posts/" class="post-category">
+                                    _posts
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="../../../../../../tags/leecode/">
+                        <span class="chip bg-color">leecode</span>
+                    </a>
+                    
+                    <a href="../../../../../../tags/回溯算法/">
+                        <span class="chip bg-color">回溯算法</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('60')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 个人博客<br />'
+            + '文章作者: 卫占军<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="../../../../../../libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="../../../../../../libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="../../../../../../libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="../../../../../../libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="../../../../../../libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="../../../../../../libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #542674;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="531576456"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#542674'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="../../../../../../libs/aplayer/APlayer.min.js"></script>
+<script src="../../../../../../libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2023</span>
+            
+            <a href="../../../../../../about" target="_blank">卫占军</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+                <span id="icp"><img src="../../../../../../medias/icp.png"
+                                    style="vertical-align: text-bottom;"/>
+                <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备2023001141号</a>
+            </span>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/weizj2000" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:weizj2000@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1084081287" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1084081287" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('../../../../../../search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="../../../../../../libs/materialize/materialize.min.js"></script>
+    <script src="../../../../../../libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="../../../../../../libs/aos/aos.js"></script>
+    <script src="../../../../../../libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="../../../../../../libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="../../../../../../js/matery.js"></script>
+
+    
+
+    
+    
+    
+        
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="../../../../../../libs/others/sakura.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="../../../../../../libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="../../../../../../libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="../../../../../../libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="../../../../../../libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+    <script type="text/javascript" color="0,0,255"
+        pointColor="0,0,255" opacity='0.7'
+        zIndex="-1" count="99"
+        src="../../../../../../libs/background/canvas-nest.js"></script>
+    
+
+    
+    
+    <script type="text/javascript" size="150" alpha='0.6'
+        zIndex="-1" src="../../../../../../libs/background/ribbon-refresh.min.js" async="async"></script>
+    
+
+    
+    <script type="text/javascript" src="../../../../../../libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="../../../../../../libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

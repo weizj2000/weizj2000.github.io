@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>个人博客</title>
+  
+  <subtitle>程序人生</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://blog.weizhanjun.com/"/>
+  <updated>2023-01-19T17:20:33.000Z</updated>
+  <id>https://blog.weizhanjun.com/</id>
+  
+  <author>
+    <name>卫占军</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>贪心算法</title>
+    <link href="https://blog.weizhanjun.com/2023/01/20//post/greedy-algorithm-7lkrt.html/"/>
+    <id>https://blog.weizhanjun.com/2023/01/20//post/greedy-algorithm-7lkrt.html/</id>
+    <published>2023-01-19T17:20:50.940Z</published>
+    <updated>2023-01-19T17:20:33.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;贪心算法&quot;&gt;&lt;a href=&quot;#贪心算法&quot; class=&quot;headerlink&quot; title=&quot;贪心算法&quot;&gt;&lt;/a&gt;贪心算法&lt;/h1&gt;&lt;p&gt;‍&lt;/p&gt;
+&lt;h1 id=&quot;算法综述&quot;&gt;&lt;a href=&quot;#算法综述&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="LeetCode" scheme="https://blog.weizhanjun.com/tags/LeetCode/"/>
+    
+      <category term="贪心算法" scheme="https://blog.weizhanjun.com/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>初识Kubernetes</title>
+    <link href="https://blog.weizhanjun.com/2023/01/20//post/kubernetes-2jjikh.html/"/>
+    <id>https://blog.weizhanjun.com/2023/01/20//post/kubernetes-2jjikh.html/</id>
+    <published>2023-01-19T17:20:50.940Z</published>
+    <updated>2023-01-19T16:31:09.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;初识Kubernetes&quot;&gt;&lt;a href=&quot;#初识Kubernetes&quot; class=&quot;headerlink&quot; title=&quot;初识Kubernetes&quot;&gt;&lt;/a&gt;初识Kubernetes&lt;/h1&gt;&lt;p&gt;Kubernetes 也称为
+        
+      
+    
+    </summary>
+    
+      <category term="_posts" scheme="https://blog.weizhanjun.com/categories/posts/"/>
+    
+    
+      <category term="kubernetes" scheme="https://blog.weizhanjun.com/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>回溯算法(backtrack)</title>
+    <link href="https://blog.weizhanjun.com/2023/01/05//post/backtrack-oosh7.html/"/>
+    <id>https://blog.weizhanjun.com/2023/01/05//post/backtrack-oosh7.html/</id>
+    <published>2023-01-05T04:30:40.000Z</published>
+    <updated>2023-01-07T04:44:33.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;回溯算法-backtrack&quot;&gt;&lt;a href=&quot;#回溯算法-backtrack&quot; class=&quot;headerlink&quot; title=&quot;回溯算法(backtrack)&quot;&gt;&lt;/a&gt;回溯算法(backtrack)&lt;/h1&gt;&lt;h1 id=&quot;算法概述&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="_posts" scheme="https://blog.weizhanjun.com/categories/posts/"/>
+    
+    
+      <category term="leecode" scheme="https://blog.weizhanjun.com/tags/leecode/"/>
+    
+      <category term="回溯算法" scheme="https://blog.weizhanjun.com/tags/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>二零一九年终总结</title>
+    <link href="https://blog.weizhanjun.com/2019/12/22/2019-conclusion/"/>
+    <id>https://blog.weizhanjun.com/2019/12/22/2019-conclusion/</id>
+    <published>2019-12-22T04:32:09.000Z</published>
+    <updated>2023-01-19T17:20:50.936Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;div align=&quot;middle&quot;&gt;&lt;iframe frameborder=&quot;no&quot; border=&quot;0&quot; marginwidth=&quot;0&quot; marginheight=&quot;0&quot; width=330 height=86
+        
+      
+    
+    </summary>
+    
+      <category term="随笔" scheme="https://blog.weizhanjun.com/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="随笔" scheme="https://blog.weizhanjun.com/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+</feed>
